@@ -13,16 +13,20 @@ public class HomeController : Controller
         _logger = logger;
     }
 
+    /*
+        zad 1
+        Zdefiniuj metodę z widokiem calculator,
+        dodaj link nawigacji do tej metody
+        zad 2
+        dodaj do kalkulatora
+        operator pow, który podnosi x do potęgi y
+        funkcje sin, ktora oblicza sin(x), y jet zbędne
+     */
     public IActionResult Calculator(Operator? op, double? x, double? y)
     {
         /*var op = Request.Query["op"];
         var x = double.Parse(Request.Query["x"]);
         var y = double.Parse(Request.Query["y"]);
-        
-        zad 2
-        dodaj do kalkulatora
-        operator pow, który podnosi x do potęgi y
-        funkcje sin, ktora oblicza sin(x), y jet zbędne
         */
         if (x is null || y is null)
         {

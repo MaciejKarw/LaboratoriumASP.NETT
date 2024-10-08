@@ -18,6 +18,11 @@ public class HomeController : Controller
         /*var op = Request.Query["op"];
         var x = double.Parse(Request.Query["x"]);
         var y = double.Parse(Request.Query["y"]);
+        
+        zad 2
+        dodaj do kalkulatora
+        operator pow, który podnosi x do potęgi y
+        funkcje sin, ktora oblicza sin(x), y jet zbędne
         */
         if (x is null || y is null)
         {
@@ -40,9 +45,16 @@ public class HomeController : Controller
             case Operator.Div:
                 ViewBag.Result = x / y;
                 break;
+            case Operator.Pow:
+                ViewBag.Result = Math.Pow(x.Value, y.Value);
+                break;
+            case Operator.Sin:
+                ViewBag.Result = Math.Sin(x.Value);
+                break;
             default:
                 ViewBag.ErrorMessage = "Nieznany operator";
                 return View("CalculatorError");
+
         }
         
         return View();
@@ -71,5 +83,5 @@ public class HomeController : Controller
 
 public enum Operator
 {
-    Add, Sub, Mul, Div
+    Add, Sub, Mul, Div, Pow, Sin
 }

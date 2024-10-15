@@ -48,5 +48,6 @@ public class Calculator
             default: return double.NaN;
         }
     }
+    
 }
 

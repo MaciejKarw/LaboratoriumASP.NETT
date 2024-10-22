@@ -22,7 +22,7 @@ public class HomeController : Controller
         operator pow, który podnosi x do potęgi y
         funkcje sin, ktora oblicza sin(x), y jet zbędne
      */
-    public IActionResult Calculator(Operator? op, double? x, double? y)
+    public IActionResult Calculator(Operators? op, double? x, double? y)
     {
         /*var op = Request.Query["op"];
         var x = double.Parse(Request.Query["x"]);
@@ -37,22 +37,22 @@ public class HomeController : Controller
         
         switch (op)
         {
-            case Operator.Add:
+            case Operators.Add:
                 ViewBag.Result = x + y;
                 break;
-            case Operator.Sub:
+            case Operators.Sub:
                 ViewBag.Result = x - y;
                 break;
-            case Operator.Mul:
+            case Operators.Mul:
                 ViewBag.Result = x * y;
                 break;
-            case Operator.Div:
+            case Operators.Div:
                 ViewBag.Result = x / y;
                 break;
-            case Operator.Pow:
+            case Operators.Pow:
                 ViewBag.Result = Math.Pow(x.Value, y.Value);
                 break;
-            case Operator.Sin:
+            case Operators.Sin:
                 ViewBag.Result = Math.Sin(x.Value);
                 break;
             default:
@@ -85,7 +85,7 @@ public class HomeController : Controller
     }
 }
 
-public enum Operator
+public enum Operators
 {
     Add, Sub, Mul, Div, Pow, Sin
 }

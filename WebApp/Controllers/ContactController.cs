@@ -6,58 +6,35 @@ namespace WebApp.Controllers;
 
 public class ContactController : Controller
 {
-
-    private static Dictionary<int, ContactModel> _contacts = new()
-    {
-        {
-            1,
-            new()
-            {
-                Id = 1,
-                FirstName = "Adam",
-                LastName = "Dobry",
-                Email = "dobry@gmail.com",
-                PhoneNumber = "222 666 444",
-                BirthDate = new (2003, 10, 10)
-            }
-        },
-        {
-            2,
-            new()
-            {
-                Id = 2,
-                FirstName = "Krzysiek",
-                LastName = "Miły",
-                Email = "mily@gmail.com",
-                PhoneNumber = "254 875 654",
-                BirthDate = new (2004, 03, 5)
-            }
-        },
-        {
-            3,
-            new()
-            {
-                Id = 3,
-                FirstName = "Kocham",
-                LastName = "Emiśke",
-                Email = "janek@gmail.com",
-                PhoneNumber = "421 543 466",
-                BirthDate = new (2004, 12, 19)
-            }
-        },
-    };
+    private readonly IContactService _contactService;
 
     private static int currentId = 3;
+
+    public ContactController(IContactService contactService)
+    {
+        _contactService = contactService;
+    }
+
     // Lista kontaktów, przycisk dodawania kontaktu
     public IActionResult Index()
     {
-        return View(_contacts); 
+        return View(_contactService.GetAll());
     }
     // formularz dodawania kontaktu
+
+    public ActionResult Details(int id)
+    {
+        return View(_contactService.GetById(id));
+    }
+
     public IActionResult Add()
     {
         return View();
+
+        _contactService.Add(model);
+        return RedirectToAction(nameof(Index));
     }
+
     // Odebranie danych z formularza, walidacja i dodanie kontatku do kolekcji
     [HttpPost]
     public IActionResult Add(ContactModel model)
@@ -69,7 +46,7 @@ public class ContactController : Controller
         }
 
         model.Id = ++currentId;
-        _contacts.Add(model.Id,model);
+        _contacts.Add(model.Id, model);
         return View("Index", _contacts);
     }
 
@@ -79,13 +56,26 @@ public class ContactController : Controller
         return View("Index", _contacts);
     }
 
-    public IActionResult Edit()
+    public IActionResult Edit(int id)
     {
-        throw new NotImplementedException();
+        return View(_contactService.GetById(id));
     }
 
-    public IActionResult Details()
+    [HttpPost]
+    public ActionResult Edit(ContactModel model)
     {
-        throw new NotImplementedException();
+        if (!ModelState.IsValid)
+        {
+            return View();
+        }
+
+        _contactService.Update(model);
+        return RedirectToAction(nameof(System.Index));
+    }
+
+    public ActionResult Delete(int id, ContactModel model)
+    {
+        _contactService.Delete(id);
+        return RedirectToAction(nameof(Index));
     }
 }

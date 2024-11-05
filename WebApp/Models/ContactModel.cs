@@ -27,4 +27,6 @@ public class ContactModel
     
     [DataType(DataType.Date)]
     public DateOnly BirthDate { get; set; }
+    
+    public Category Category { get; set; }
 }

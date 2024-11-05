@@ -1,91 +1,81 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using WebApp.Models;
 
 namespace WebApp.Controllers;
 
-public class HomeController : Controller
+public class ContactController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly IContactService _contactService;
 
-    public HomeController(ILogger<HomeController> logger)
+    private static int currentId = 3;
+
+    public ContactController(IContactService contactService)
     {
-        _logger = logger;
+        _contactService = contactService;
     }
 
-    /*
-        zad 1
-        Zdefiniuj metodę z widokiem calculator,
-        dodaj link nawigacji do tej metody
-        zad 2
-        dodaj do kalkulatora
-        operator pow, który podnosi x do potęgi y
-        funkcje sin, ktora oblicza sin(x), y jet zbędne
-     */
-    public IActionResult Calculator(Operators? op, double? x, double? y)
-    {
-        /*var op = Request.Query["op"];
-        var x = double.Parse(Request.Query["x"]);
-        var y = double.Parse(Request.Query["y"]);
-        */
-        if (x is null || y is null)
-        {
-            ViewBag.ErrorMessage = "Niepoprawny format liczby parametrze x lub y";
-            return View("CalculatorError");
-        }
-        
-        
-        switch (op)
-        {
-            case Operators.Add:
-                ViewBag.Result = x + y;
-                break;
-            case Operators.Sub:
-                ViewBag.Result = x - y;
-                break;
-            case Operators.Mul:
-                ViewBag.Result = x * y;
-                break;
-            case Operators.Div:
-                ViewBag.Result = x / y;
-                break;
-            case Operators.Pow:
-                ViewBag.Result = Math.Pow(x.Value, y.Value);
-                break;
-            case Operators.Sin:
-                ViewBag.Result = Math.Sin(x.Value);
-                break;
-            default:
-                ViewBag.ErrorMessage = "Nieznany operator";
-                return View("CalculatorError");
-
-        }
-        
-        return View();
-    }
-    
-    public IActionResult About()
-    {
-        return View();
-    }
+    // Lista kontaktów, przycisk dodawania kontaktu
     public IActionResult Index()
     {
-        return View();
+        return View(_contactService.GetAll());
+    }
+    // formularz dodawania kontaktu
+
+    public ActionResult Details(int id)
+    {
+        return View(_contactService.GetById(id));
     }
 
-    public IActionResult Privacy()
+    public IActionResult Add()
     {
         return View();
+
+        _contactService.Add(model);
+        return RedirectToAction(nameof(Index));
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    // Odebranie danych z formularza, walidacja i dodanie kontatku do kolekcji
+    [HttpPost]
+    public IActionResult Add(ContactModel model)
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
-}
+        if (!ModelState.IsValid)
+        {
+            // wyswietlenie ponowne formularza z błędami
+            return View(model);
+        }
 
-public enum Operators
-{
-    Add, Sub, Mul, Div, Pow, Sin
+        model.Id = ++currentId;
+        _contacts.Add(model.Id, model);
+        return View("Index", _contacts);
+    }
+
+    public IActionResult Delete(int id)
+    {
+        _contacts.Remove(id);
+        return View("Index", _contacts);
+    }
+
+    public IActionResult Edit(int id)
+    {
+        return View(_contactService.GetById(id));
+    }
+
+    [HttpPost]
+    public ActionResult Edit(ContactModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View();
+        }
+
+        _contactService.Update(model);
+        return RedirectToAction(nameof(System.Index));
+    }
+
+    public ActionResult Delete(int id, ContactModel model)
+    {
+        _contactService.Delete(id);
+        return RedirectToAction(nameof(Index));
+    }
 }

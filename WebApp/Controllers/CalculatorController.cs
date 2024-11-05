@@ -58,5 +58,3 @@ var y = double.Parse(Request.Query["y"]);
         return View();
     }
 }
-
-

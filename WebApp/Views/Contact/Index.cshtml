@@ -1,8 +1,8 @@
-﻿@model System.Collections.Generic.Dictionary<int,WebApp.Models.ContactModel>
+﻿@model List<ContactModel>
 
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+ViewBag.Title = "Kontakty";
+Layout = "_Layout";
 }
 
 <h2>Kontakty</h2>
@@ -11,34 +11,23 @@
 <table class="table">
     <thead>
     <tr>
-        <th>
-            Imię
-        </th>
-        <th>
-            Nazwisko
-        </th>
-        <th>
-            Akcje
-        </th>
+        <th>Imię</th>
+        <th>Nazwisko</th>
+        <th>Akcje</th>
     </tr>
     </thead>
     <tbody>
-    @foreach (var entry in @Model)
+    @foreach (var entry in Model)
     {
-        <tr>
-            <td>
-                @entry.Value.FirstName
-            </td>
-            <td>
-                @entry.Value.LastName
-            </td>
-            <td>
-                <a class="btn btn-success" asp-controller="Contact" asp-action="Edit" asp-route-id=@entry.Key>Edycja</a>
-                <a class="btn btn-info" asp-controller="Contact" asp-action="Details" asp-route-id=@entry.Key>Szczegóły</a>
-                <a class="btn btn-danger" asp-controller="Contact" asp-action="Delete" asp-route-id=@entry.Key>Usuń</a>
-            </td>
-        </tr>
+    <tr>
+        <td>@entry.FirstName</td>
+        <td>@entry.LastName</td>
+        <td>
+            <a class="btn btn-success" asp-controller="Contact" asp-action="Edit" asp-route-id="@entry.Id">Edycja</a>
+            <a class="btn btn-info" asp-controller="Contact" asp-action="Details" asp-route-id="@entry.Id">Szczegóły</a>
+            <a class="btn btn-danger" asp-controller="Contact" asp-action="Delete" asp-route-id="@entry.Id">Usuń</a>
+        </td>
+    </tr>
     }
     </tbody>
-
 </table>

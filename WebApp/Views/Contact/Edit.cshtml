@@ -1,0 +1,55 @@
+﻿@model ContactModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Edytuj kontakt</h2>
+<Form asp-action="Edit" asp-controller="Contact" method="post">
+    
+    <input asp-for="Id"/>
+    
+    <div class="mb-3">
+        <label class="form-label" asp-for="FirstName">Imię</label>
+        <input class="form-control" asp-for="FirstName"/>
+        <span class="text-danger" asp-validation-for="FirstName"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="LastName">Nazwisko</label>
+        <input class="form-control" asp-for="LastName"/>
+        <span class="text-danger" asp-validation-for="LastName"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="Email">Email</label>
+        <input class="form-control" asp-for="Email"/>
+        <span class="text-danger" asp-validation-for="Email"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="PhoneNumber">Numer Telefonu</label>
+        <input class="form-control" asp-for="PhoneNumber"/>
+        <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="BirthDate">Data urodzin</label>
+        <input class="form-control" asp-for="BirthDate"/>
+        <span class="text-danger" asp-validation-for="BirthDate"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="Category">Data urodzin</label>
+        <input class="form-control" asp-for="Category"/>
+        <span asp-validation-for="Category"></span>
+    </div>
+
+
+
+
+
+    <button class="btn btn-outline-primary" type="submit">Zapisz</button>
+
+</Form>
